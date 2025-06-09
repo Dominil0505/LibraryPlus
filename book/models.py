@@ -5,7 +5,7 @@ class BaseModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    name = models.CharField(null=False, db_index=True)
+    name = models.CharField(null=False, db_index=True, unique=True)
     
     class Meta:
         abstract = True
@@ -23,7 +23,6 @@ class Author(BaseModel):
     pass
 
 class Book(BaseModel):
-    name = models.CharField(null=False, unique=True, db_index=True)
     released_date = models.DateTimeField(null=False)
     copy_number = models.PositiveSmallIntegerField(null=False)
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE, null=False)
