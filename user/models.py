@@ -1,8 +1,6 @@
-from time import timezone
 import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.base_user import BaseUserManager
 from book.models import Book
 
 class BaseModel(models.Model):
@@ -14,9 +12,14 @@ class BaseModel(models.Model):
         abstract = True
         
 class CustomUser(AbstractUser):
-    role_name = models.CharField(max_length=128)
     borrow_limit = models.SmallIntegerField(default=5)
-            
+    
+    ROLE_CHOICES = [
+        ('admin', 'Admin'),
+        ('user', 'User')
+    ]
+    
+    role_name = models.CharField(max_length=20, choices=ROLE_CHOICES, default='user')
     def __str__(self):
         return self.name
 
