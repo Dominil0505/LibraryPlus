@@ -78,11 +78,16 @@ WSGI_APPLICATION = 'LibraryPlus.wsgi.application'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication'
-    ]
+    ],
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
 }
 
 SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('JWT',),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
 DJOSER = {
@@ -154,4 +159,16 @@ DJOSER = {
     'SERIALIZERS': {
         'user_create': 'user.serializers.CustomUserSerializer',
     },
+}
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+                'type': 'apiKey',
+                'name': 'Authorization',
+                'in': 'header'
+        }
+    },
+    'USE_SESSION_AUTH': False,
+    'PERSIST_AUTH': True
 }

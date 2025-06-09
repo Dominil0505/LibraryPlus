@@ -20,13 +20,6 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-    TokenVerifyView,
-)
-from djoser.views import UserViewSet
-
 schema_view = get_schema_view(
     openapi.Info(
         title="Library API",
@@ -37,19 +30,11 @@ schema_view = get_schema_view(
     permission_classes=[permissions.AllowAny],
 )
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('api/user', include('user.urls')),
-
-    path('auth/register/', UserViewSet.as_view({'post': 'create'}), name='user-register'),
+    path('api/', include('user.urls'), name="auth"),
     
-    
-    path('auth/login/', TokenObtainPairView.as_view(), name='user-login'),
-    path('auth/jwt/refresh/', TokenRefreshView.as_view(), name='jwt-refresh'),
-    path('auth/jwt/verify/', TokenVerifyView.as_view(), name='jwt-verify'),
-    
-    path('auth/me/', UserViewSet.as_view({'get': 'me'}), name='user-me'),
+    path("api/", include('book.urls'))
 ]
