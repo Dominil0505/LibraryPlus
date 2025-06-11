@@ -10,18 +10,23 @@ class CustomUserSerializer(UserCreateSerializer):
         fields = [
             'email',
             'username',
-            'role_name',
             'password',
         ]
-    
-    def create(self, validated_data):
-        role = validated_data.get('role_name', 'user')
+
+class AdminUserSerializer(UserCreateSerializer):
+    class Meta:
+        model = CustomUser
+        fields = [
+            'email',
+            'username',
+            'password'
+        ]
         
+    def create(self, validated_data):
         user = super().create(validated_data)
-
-        if role == 'admin':
-            user.is_superuser = True
-            user.is_staff = True
-
+        
+        user.is_superuser = True
+        user.is_staff = True
+        
         user.save()
         return user
