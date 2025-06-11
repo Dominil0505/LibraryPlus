@@ -1,4 +1,10 @@
 # Library App
+
+# Parancsok
+- seed books: `python manage.py load_books`
+
+Bővebb specifikáció: https://branched-bell-721.notion.site/LibraryApp-20f0699a484e80bca36de01b053b95e6
+
 ## Logika:
 - Csak elérhető (nem kölcsönzött) könyvek kölcsönözhetők.
 - Adminok kezelhetik a könyvek és szerzők adatait.
